@@ -1,0 +1,10 @@
+{
+    "setup_path": "~",
+    "test_setup_path": ".",
+    "structure": [
+        "code/sandbox",
+        "code/data",
+        "notes",
+        "work"
+    ]
+}
