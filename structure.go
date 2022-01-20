@@ -5,6 +5,8 @@ import (
 	"path/filepath"
 )
 
+// Structure builds the folder structure within the base directory
+// using the structure provided in the config file.
 func Structure(c Config) {
 	for _, v := range c.Structure {
 		newPath := filepath.Join(c.Path, v)

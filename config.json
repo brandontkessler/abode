@@ -4,7 +4,25 @@
     "structure": [
         "code/sandbox",
         "code/data",
+        "code/projects",
         "notes",
         "work"
+    ],
+    "vscode_settings": {
+        "workbench.colorTheme": "Night Owl (No Italics)",
+        "workbench.iconTheme": "vscode-icons"
+    },
+    "vscode_extensions": [
+        "ms-python.vscode-pylance",
+        "ms-python.python",
+        "yzhang.markdown-all-in-one",
+        "sdras.night-owl",
+        "vscode-icons-team.vscode-icons",
+        "kisstkondoros.vscode-gutter-preview",
+        "equinusocio.vsc-material-theme-icons",
+        "coenraads.bracket-pair-colorizer",
+        "shd101wyy.markdown-preview-enhanced",
+        "tomoki1207.pdf",
+        "meowteam.vscode-math-to-image"
     ]
 }
