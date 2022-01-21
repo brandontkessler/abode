@@ -20,6 +20,8 @@ type Config struct {
 	Structure        []string          `json:"structure"`
 	VsCodeSettings   map[string]string `json:"vscode_settings"`
 	VsCodeExtensions []string          `json:"vscode_extensions"`
+	GenerateBash     bool              `json:"generate_bash_files"`
+	TerminalProfile  string            `json:"terminal_profile"`
 }
 
 // GetPath creates the correct path based on the mode passed in

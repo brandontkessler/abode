@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 )
 
@@ -13,6 +14,11 @@ func main() {
 	// Get config settings
 	config := GetConfig("config.json")
 	config.GetPath(mode)
+
+	// start with teardown
+	if mode == "test" {
+		Teardown(config)
+	}
 
 	// Build the folder structure
 	Structure(config)
@@ -44,9 +50,19 @@ func main() {
 		}
 	}
 
-	// if mode == "test" {
-	// 	Teardown(config)
-	// }
+	// Sets up bash and terminal settings
+	Bash(config)
+
+	// Source .bashrc if in production
+	if mode == "prod" {
+		rcPath := filepath.Join(config.HomeDir, ".bashrc")
+		cmd := exec.Command("bash", "-c", fmt.Sprint("source ", rcPath))
+		err := cmd.Run()
+
+		if err != nil {
+			panic(err)
+		}
+	}
 
 	// git config --global init.defaultBranch <name>
 	// add this as part of git setup

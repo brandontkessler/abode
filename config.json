@@ -24,5 +24,7 @@
         "shd101wyy.markdown-preview-enhanced",
         "tomoki1207.pdf",
         "meowteam.vscode-math-to-image"
-    ]
+    ],
+    "generate_bash_files": true,
+    "terminal_profile": "Homebrew"
 }
