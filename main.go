@@ -64,6 +64,20 @@ func main() {
 		}
 	}
 
-	// git config --global init.defaultBranch <name>
+	sshPath := filepath.Join(config.HomeDir, ".ssh")
+	keyGenPassword := ""
+	err := GenKeys(sshPath, "idrsa", keyGenPassword)
+
+	if err != nil {
+		panic(err)
+	}
+
+	err = SshConfig(sshPath)
+
+	if err != nil {
+		panic(err)
+	}
+
+	// git config --global init.defaultBranch main
 	// add this as part of git setup
 }
