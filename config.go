@@ -22,6 +22,8 @@ type Config struct {
 	VsCodeExtensions []string          `json:"vscode_extensions"`
 	GenerateBash     bool              `json:"generate_bash_files"`
 	TerminalProfile  string            `json:"terminal_profile"`
+	ProjectGitRepos  []string          `json:"project_git_repos"`
+	NotesGitRepos    []string          `json:"notes_git_repos"`
 }
 
 // GetPath creates the correct path based on the mode passed in

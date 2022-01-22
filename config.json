@@ -26,5 +26,16 @@
         "meowteam.vscode-math-to-image"
     ],
     "generate_bash_files": true,
-    "terminal_profile": "Pro"
+    "terminal_profile": "Pro",
+    "project_git_repos": [
+        "https://github.com/brandontkessler/GenData.git",
+        "https://github.com/brandontkessler/decorators.git",
+        "https://github.com/brandontkessler/data_structures.git",
+        "https://github.com/brandontkessler/daily_weather.git -v",
+        "https://github.com/brandontkessler/awssdk.git -v",
+        "https://github.com/brandontkessler/abode.git"
+    ],
+    "notes_git_repos": [
+        "https://github.com/brandontkessler/notes.git"
+    ]
 }

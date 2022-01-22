@@ -6,11 +6,14 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
+	"time"
 )
 
 const mode = "test"
 
 func main() {
+	start := time.Now()
 	// Get config settings
 	config := GetConfig("config.json")
 	config.GetPath(mode)
@@ -78,6 +81,48 @@ func main() {
 		panic(err)
 	}
 
+	// Set up Git projects and Notes
+	projPath := getPath(config.Structure, "code", "projects")
+
+	if projPath == "" {
+		panic(fmt.Errorf("no code -> project path for git repos"))
+	}
+
+	projLoc := filepath.Join(config.Path, projPath)
+	RepoSetup(projLoc, config.ProjectGitRepos)
+
+	notePath := getPath(config.Structure, "notes")
+
+	if notePath == "" {
+		panic(fmt.Errorf("no notes path for git repo"))
+	}
+
+	noteLoc := filepath.Join(config.Path, notePath)
+	RepoSetup(noteLoc, config.NotesGitRepos)
+
 	// git config --global init.defaultBranch main
 	// add this as part of git setup
+	fmt.Println(time.Since(start))
+}
+
+// getPath finds the first path of a list of paths that contains strings
+// provided as args.
+// Example, if Paths = ["foo/bar", "hello", "hello/world"],
+// getPath(Paths, "hello", "world") returns "hello/world"
+func getPath(pathList []string, contains ...string) string {
+	for _, path := range pathList {
+		matches := 0
+
+		for _, arg := range contains {
+			if strings.Contains(path, arg) {
+				matches++
+			}
+
+			if matches == len(contains) {
+				return path
+			}
+		}
+	}
+
+	return ""
 }
