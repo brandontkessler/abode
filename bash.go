@@ -2,8 +2,6 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
-	"log"
 	"os/exec"
 	"path/filepath"
 	"strings"
@@ -133,44 +131,5 @@ func SetTerminalSettings(profile string) {
 
 	if strtErr != nil {
 		panic(strtErr)
-	}
-}
-
-// CheckPathAddText tries to read a file path, if it can, it adds
-// additional text to the file. Otherwise, it creates the file and
-// writes the text to it.
-func CheckPathAddText(filepath, text string) error {
-	f, err := ioutil.ReadFile(filepath)
-
-	if err != nil {
-		newText := fmt.Sprint("#!/bin/bash\n\n", text)
-
-		err = ioutil.WriteFile(filepath, []byte(newText), 0644)
-
-		return err
-	} else {
-		newText := fmt.Sprint(string(f), "\n\n", text)
-
-		err = ioutil.WriteFile(filepath, []byte(newText), 0644)
-
-		return err
-	}
-}
-
-// CheckStringInFile takes a path to a file and some text. It returns
-// an error if that file contains the string, otherwise it returns nil.
-func CheckStringInFile(filepath, text string) error {
-	f, err := ioutil.ReadFile(filepath)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	ctx := string(f)
-
-	if strings.Contains(ctx, text) {
-		return fmt.Errorf("file already contains: %s", text)
-	} else {
-		return nil
 	}
 }

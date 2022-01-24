@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
-	"os"
 	"os/exec"
 	"path/filepath"
 )
@@ -65,7 +64,8 @@ func GenKeys(path, keyname, passphrase string) error {
 }
 
 // SshConfig adds a config file to .ssh folder if not already
-// exists. It uses the const sshConfigText to populate the file.
+// exists. It uses the const sshConfigText to populate the file. If the
+// additional text already exists in the file, do nothing.
 func SshConfig(path string) error {
 	fp := filepath.Join(path, "config")
 	txt := sshConfigText
@@ -76,27 +76,16 @@ func SshConfig(path string) error {
 
 		return err
 	} else {
+		err := CheckStringInFile(fp, txt)
+
+		if err != nil {
+			return nil
+		}
+
 		newTxt := fmt.Sprint(string(f), "\n\n", txt)
 
 		err = ioutil.WriteFile(fp, []byte(newTxt), 0644)
 
 		return err
 	}
-}
-
-// Check if path exists, if not create it
-func CheckDirAndMake(path string) error {
-	if _, err := os.Stat(path); os.IsNotExist(err) {
-		err := os.MkdirAll(path, os.ModePerm)
-
-		return err
-	}
-	return nil
-}
-
-func CheckPathExists(path string) bool {
-	if _, err := os.Stat(path); err != nil {
-		return false
-	}
-	return true
 }
