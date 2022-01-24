@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -15,12 +16,11 @@ import (
 type Config struct {
 	Path             string
 	HomeDir          string
+	Name             string            `json:"name"`
 	SetupPath        string            `json:"setup_path"`
-	TestSetupPath    string            `json:"test_setup_path"`
 	Structure        []string          `json:"structure"`
 	VsCodeSettings   map[string]string `json:"vscode_settings"`
 	VsCodeExtensions []string          `json:"vscode_extensions"`
-	GenerateBash     bool              `json:"generate_bash_files"`
 	TerminalProfile  string            `json:"terminal_profile"`
 	ProjectGitRepos  []string          `json:"project_git_repos"`
 	NotesGitRepos    []string          `json:"notes_git_repos"`
@@ -32,20 +32,15 @@ type Config struct {
 func (c *Config) GetPath(mode string) {
 	root := os.Getenv("HOME")
 
-	switch mode {
-	case "test":
-		path := strings.Replace(c.TestSetupPath, "~", root, -1)
-		c.HomeDir = filepath.Join(path, "Abode")
-		c.Path = filepath.Join(path, "Abode")
-	case "prod":
-		path := strings.Replace(c.SetupPath, "~", root, -1)
-		c.HomeDir = root
-		c.Path = filepath.Join(path, "Abode")
-	default:
-		path := strings.Replace(c.TestSetupPath, "~", root, -1)
-		c.HomeDir = filepath.Join(path, "Abode")
-		c.Path = filepath.Join(path, "Abode")
+	wd, err := os.Getwd()
+
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	path := strings.Replace(wd, "~", root, -1)
+	c.HomeDir = root
+	c.Path = filepath.Join(path, c.Name)
 }
 
 // GetConfig reads the configuration file. It has one parameter called
