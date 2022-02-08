@@ -59,7 +59,7 @@ alias la="ls -la"`
 // paths is used to populate .bash_paths. The third line of PATH, removes any
 // duplicates within the PATH.
 const paths = `# Set paths
-PYTHONPATH=$PYTHONPATH:<<path>>
+PYTHONPATH=$PYTHONPATH:<<codePath>>:<<workCodePath>>
 export PYTHONPATH
 
 PATH=$PATH:$HOME/bin
@@ -78,14 +78,17 @@ func Bash(c Config) {
 	SetTerminalSettings(c.TerminalProfile)
 
 	abodeAlias := fmt.Sprint(`alias abode="cd `, c.Path, `"`)
-	codePath := filepath.Join(c.Path, "code")
+	codePath := filepath.Join(c.Path, "code", "projects")
+	workCodePath := filepath.Join(c.Path, "work", "code", "projects")
+
+	replacer := strings.NewReplacer("<<codePath>>", codePath, "<<workCodePath>>", workCodePath)
 
 	bf := map[string]string{
 		".bashrc":       strings.Replace(rc, "<<path>>", c.Path, -1),
 		".bash_profile": profile,
 		".bash_prompt":  prompt,
 		".bash_aliases": fmt.Sprint(alias, "\n\n", abodeAlias),
-		".bash_paths":   strings.Replace(paths, "<<path>>", codePath, -1),
+		".bash_paths":   replacer.Replace(paths),
 	}
 
 	// Loops through bf (bashFiles) to create the path which is
