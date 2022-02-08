@@ -51,7 +51,7 @@ func GenKeys(path, keyname, passphrase string) error {
 	fp := filepath.Join(path, keyname)
 
 	if pe := CheckPathExists(fp); pe {
-		fmt.Printf("key already exists: %s\n", fp)
+		fmt.Printf("skipping keygen - already exists: %s\n", fp)
 		return nil
 	}
 
